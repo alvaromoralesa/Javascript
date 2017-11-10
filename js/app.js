@@ -1,11 +1,10 @@
-//----------------CALCULADORA-----------------
 var Calculadora = (function(){
 
-  var numeroDisplay; //Los dígitos mostrados actualmente en la pantalla (string)
-  var display; //<span> del display de la calculadora
-  var numMemoria; //Aquí se guarda el primer operando mientras se realiza una operación
-  var operMemoria; //Aquí se guarda el tipo de operación que se está realizando
-  var numMemoria2; //Aquí se guarda el segundo operando luego de realizar una operación
+  var numeroDisplay; 
+  var display; 
+  var numMemoria;
+  var operMemoria; 
+  var numMemoria2;
 
   function inicializar(){
     display = document.getElementById("display");
@@ -15,7 +14,7 @@ var Calculadora = (function(){
     operMemoria = "";
   }
 
-  //Agregar una cifra al numero actual. Llamada al pulsar un número
+  //concatena llamada al pulsar un número
   function anadirCifra(cifra){
     if(cifra == 0 && numeroDisplay == "0"){
       return;
@@ -33,18 +32,15 @@ var Calculadora = (function(){
   function contarDigitos(txtNumero){
     var cantDigitos = 0;
     for(var i = 0; i < txtNumero.length; i++){
-      if(!isNaN(parseInt(txtNumero[i]))){ //Si el caracter es un dígito
+      if(!isNaN(parseInt(txtNumero[i]))){
         cantDigitos++;
       }
     }
     return cantDigitos;
   }
 
-  //"Corta" el número ingresado para que tenga 8 dígitos o menos.
-  //No cuenta el punto (.) o el menos (-) como dígito
   function truncarA8Digitos(txtNumero){
-    //Aquí una pequeña prueba para ver si el número es mayor a 99999999 y truncarlo al mismo..
-    //No se pedía en la evaluación pero quedaba bonito.
+
     var probarNumero = parseFloat(txtNumero);
     if(!isNaN(probarNumero) && probarNumero > 99999999){
       return "99999999";
@@ -53,7 +49,7 @@ var Calculadora = (function(){
     var textoAMantener = "";
 
     for(var i = 0; i < txtNumero.length; i++){
-      if(!isNaN(parseInt(txtNumero[i]))){ //Si el caracter es un dígito
+      if(!isNaN(parseInt(txtNumero[i]))){
         digitos++;
         if(digitos > 8){
           break;
@@ -64,7 +60,6 @@ var Calculadora = (function(){
     return textoAMantener;
   }
 
-  //Reemplaza el número que esté en el display por el parámetro enviado
   function mostrarNumero(txtNumero){
     var textoNum = truncarA8Digitos(txtNumero);
     numeroDisplay = textoNum;
@@ -91,11 +86,7 @@ var Calculadora = (function(){
     return num1 / num2;
   }
 
-//  function raiz(num){
-//    return Math.sqrt(num);
-//  }
-
-  //Realiza la operación enviada por parámetro y la muestra en pantalla
+  //Realiza la operación enviada por parámetro y la muestra en pantalla.
   function calcularMostrar(operacion, num1, num2){
     var resultado;
     switch(operacion){
@@ -119,7 +110,7 @@ var Calculadora = (function(){
     },
 
     pulsaTeclaOperacion : function(operacion){
-      if(numeroDisplay != ""){ //Puede estar vacío por pulsar dos veces seguidas teclas de operación
+      if(numeroDisplay != ""){
         numMemoria = parseFloat(numeroDisplay);
         mostrarNumero("");
       }
@@ -142,14 +133,13 @@ var Calculadora = (function(){
     },
 
     pulsaTeclaPunto : function(){
-       //Si el número NO tiene punto y hay menos de 8 dígitos
       if(numeroDisplay.indexOf(".") == -1 && contarDigitos(numeroDisplay) < 8){
         mostrarNumero(numeroDisplay + ".");
       }
     },
 
     pulsaTeclaIgual : function(){
-      if(numeroDisplay != ""){ //Esto ocurre al oprimir el igual inmediatamente luego de una tecla de operación
+      if(numeroDisplay != ""){ 
         var resultado;
         var numActual = parseFloat(numeroDisplay);
 
@@ -169,8 +159,7 @@ var Calculadora = (function(){
   }
 })();
 
-//--------------------------------------------
-//------------------TECLAS--------------------
+//teclas
 var teclaOn = document.getElementById("on");
 var teclaSuma = document.getElementById("mas");
 var teclaResta = document.getElementById("menos");
@@ -191,19 +180,17 @@ var listaTeclas = [teclaOn, teclaSuma, teclaResta, teclaMultiplica, teclaDivide,
                     teclasNumero[1], teclasNumero[2], teclasNumero[3],
                     teclasNumero[4], teclasNumero[5], teclasNumero[6],
                     teclasNumero[7], teclasNumero[8], teclasNumero[9]];
-//--------------------------------------------
-//--------FUNCIONES ANIMACIÓN TECLAS----------
-//Pulsar tecla
+
+//animacion de las teclas
 function achicarTecla(tecla){
   tecla.style.transform = "scale(0.95, 0.92)";
 }
-//Soltar tecla. (recuperar tamaño)
+//Soltar tecla.
 //Eliminar el estilo inline la devuelve al estilo de la hoja CSS
 function soltarTecla(tecla){
   tecla.style.transform = "";
 }
-//--------------------------------------------
-//------------------EVENTOS-------------------
+//eventos
 
 //Eventos mousedown
 
@@ -261,5 +248,3 @@ for(var i = 0; i < listaTeclas.length; i++){
     soltarTecla(e.target);
   });
 }
-
-//--------------------------------------------
